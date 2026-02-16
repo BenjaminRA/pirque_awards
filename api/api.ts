@@ -38,7 +38,9 @@ class API {
 
   static fetchVoters = async () => {
     try {
-      const response = await api.get('/acampantes?populate=*');
+      const response = await api.get(
+        '/acampantes?populate=*&sort=Nombre:ASC&filters[$and][0][Voto][$eq]=false',
+      );
       return (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         response.data.data.map((item: any) => ({

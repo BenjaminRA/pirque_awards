@@ -34,7 +34,7 @@ export default function WelcomeScreen({ onStart }: WelcomeScreenProps) {
         </div>
         <button
           onClick={onStart}
-          className="bg-purple text-white font-bold text-2xl md:text-3xl px-16 py-6 rounded-2xl shadow-2xl hover:bg-purple-light hover:scale-105 transform transition-all duration-300 uppercase tracking-wide"
+          className="bg-purple text-white font-bold text-2xl md:text-3xl px-16 py-6 rounded-2xl shadow-2xl hover:bg-purple-light hover:scale-105 transform transition-all duration-300 uppercase tracking-wide cursor-pointer"
         >
           Empezar Votación
         </button>

@@ -121,7 +121,10 @@ export default function Home() {
     <div className="min-h-screen kraft-bg">
       {step === 'welcome' && <WelcomeScreen onStart={handleStart} />}
       {step === 'voter' && (
-        <VoterSelection onVoterSelected={handleVoterSelected} />
+        <VoterSelection
+          onVoterSelected={handleVoterSelected}
+          onBack={() => setStep('welcome')}
+        />
       )}
       {step === 'voting' && categories.length > 0 && (
         <CategoryVoting
@@ -136,6 +139,7 @@ export default function Home() {
           onVote={handleVote}
           onNext={handleNext}
           onPrevious={handlePrevious}
+          onReset={handleReset}
         />
       )}
       {step === 'thanks' && <ThankYouScreen onReset={handleReset} />}

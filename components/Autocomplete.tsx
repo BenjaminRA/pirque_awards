@@ -31,6 +31,18 @@ export default function Autocomplete({
     [options, value],
   );
 
+  useEffect(() => {
+    if (value === null || value === 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setInputValue('');
+    } else {
+      const match = options.find((opt) => opt.id === value);
+      if (match) {
+        setInputValue(match.name);
+      }
+    }
+  }, [value, options]);
+
   const filteredOptions = useMemo(
     () =>
       options.filter((option) =>
