@@ -1,36 +1,158 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pirque Awards 2026
 
-## Getting Started
+Plataforma de votación para el campamento bíblico Pirque Awards 2026.
 
-First, run the development server:
+## Características
+
+- 🎯 Selección de votante con autocompletado
+- 📊 Votación por categorías con navegación paso a paso
+- 🖼️ Imágenes por categoría
+- 📱 Diseño responsive
+- 🎨 Estilo vibrante con gradientes naranjas/amarillos/rojos
+
+## Requisitos previos
+
+- Node.js 18+ instalado
+- Backend Strapi configurado y ejecutándose
+
+## Instalación
+
+1. Instalar dependencias:
+```bash
+npm install
+```
+
+2. Configurar variables de entorno:
+```bash
+cp .env.example .env.local
+```
+
+Edita `.env.local` y configura la URL de tu backend Strapi:
+```
+NEXT_PUBLIC_STRAPI_URL=http://localhost:1337
+```
+
+## Desarrollo
+
+Ejecutar el servidor de desarrollo:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrir [http://localhost:3000](http://localhost:3000) en el navegador.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Backend (Strapi)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+La aplicación espera los siguientes endpoints en Strapi:
 
-## Learn More
+### 1. GET `/api/voters`
+Retorna la lista de acampantes que pueden votar.
 
-To learn more about Next.js, take a look at the following resources:
+Respuesta esperada:
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Juan Pérez"
+    },
+    {
+      "id": 2,
+      "name": "María González"
+    }
+  ]
+}
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 2. GET `/api/categories?populate=*`
+Retorna todas las categorías con sus imágenes.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Respuesta esperada:
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "title": "El más comilón",
+      "image": "/uploads/categoria1.jpg"
+    },
+    {
+      "id": 2,
+      "title": "La más comilona",
+      "image": "/uploads/categoria2.jpg"
+    }
+  ]
+}
+```
 
-## Deploy on Vercel
+### 3. GET `/api/categories/:id/candidates`
+Retorna los candidatos para una categoría específica.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Respuesta esperada:
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Pedro López"
+    },
+    {
+      "id": 2,
+      "name": "Ana Martínez"
+    }
+  ]
+}
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 4. POST `/api/votes`
+Envía los votos del acampante.
+
+Payload enviado:
+```json
+{
+  "data": {
+    "voterId": 1,
+    "votes": [
+      {
+        "categoryId": 1,
+        "candidateId": 5
+      },
+      {
+        "categoryId": 2,
+        "candidateId": 8
+      }
+    ]
+  }
+}
+```
+
+## Flujo de la aplicación
+
+1. **Pantalla de bienvenida**: El usuario presiona "Empezar Votación"
+2. **Selección de votante**: El usuario se identifica seleccionando su nombre
+3. **Votación por categorías**: El usuario vota en cada categoría, navegando con botones "Siguiente" y "Atrás"
+4. **Pantalla de agradecimiento**: Se muestra al finalizar, con botón "OK" para volver al inicio
+
+Todo el flujo ocurre en una sola página sin subrutas.
+
+## Build
+
+Para crear una versión de producción:
+
+```bash
+npm run build
+npm start
+```
+
+## Tecnologías utilizadas
+
+- Next.js 15
+- TypeScript
+- Tailwind CSS
+- React Hooks
+
+---
+
+Desarrollado para el Campamento Bíblico Pirque Awards 2026
+
