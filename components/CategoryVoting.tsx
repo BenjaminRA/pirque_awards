@@ -93,11 +93,12 @@ export default function CategoryVoting({
         {category.image && (
           <div className="polaroid-card rounded-lg mb-6">
             <div className="relative w-full h-64 md:h-80 overflow-hidden rounded">
-              <img
+              <Image
                 src={`${category.image}`}
                 // src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${category.image}`}
                 alt={category.title}
-                className="object-cover w-full h-full"
+                fill
+                className="object-cover"
               />
             </div>
           </div>

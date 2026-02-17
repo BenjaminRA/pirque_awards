@@ -1,20 +1,20 @@
-import type { NextConfig } from 'next';
+// import type { NextConfig } from 'next';
 
-const nextConfig: NextConfig = {
-  images: {
-    dangerouslyAllowLocalIP: true,
-    remotePatterns: [
-      {
-        hostname: '*',
-      },
-      {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '1337',
-        pathname: '/uploads/**',
-      },
-    ],
-  },
-};
+// const nextConfig: NextConfig = {
+//   images: {
+//     dangerouslyAllowLocalIP: true,
+//     remotePatterns: [
+//       {
+//         hostname: '*',
+//       },
+//       {
+//         protocol: 'http',
+//         hostname: 'localhost',
+//         port: '1337',
+//         pathname: '/uploads/**',
+//       },
+//     ],
+//   },
+// };
 
-export default nextConfig;
+// export default nextConfig;
