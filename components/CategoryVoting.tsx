@@ -68,14 +68,14 @@ export default function CategoryVoting({
   const isLastCategory = currentIndex === totalCategories - 1;
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center p-4 md:p-8">
+    <div className="relative flex min-h-screen items-center justify-center p-4 md:p-8 pb-16">
       <button
         onClick={onReset}
-        className="absolute bottom-6 left-6 text-foreground/60 hover:text-foreground font-medium text-lg transition-colors cursor-pointer"
+        className="absolute bottom-4 left-4 md:bottom-6 md:left-6 text-foreground/60 hover:text-foreground font-medium text-base md:text-lg transition-colors cursor-pointer"
       >
         ← Volver
       </button>
-      <div className="bg-white/95 rounded-3xl shadow-2xl p-6 md:p-12 max-w-3xl w-full border-2 border-kraft-dark/20 mb-8">
+      <div className="bg-white/95 rounded-3xl shadow-2xl p-5 md:p-12 max-w-3xl w-full border-2 border-kraft-dark/20">
         <div className="mb-6">
           <p className="text-purple font-semibold text-lg">
             Pregunta {currentIndex + 1} de {totalCategories}
@@ -118,11 +118,11 @@ export default function CategoryVoting({
           placeholder="Selecciona un candidato..."
         />
 
-        <div className="flex gap-4 mt-8">
+        <div className="flex gap-3 md:gap-4 mt-6 md:mt-8">
           {currentIndex > 0 && (
             <button
               onClick={onPrevious}
-              className="flex-1 bg-kraft-light text-foreground font-bold text-xl px-8 py-4 rounded-2xl shadow-lg hover:bg-kraft transform transition-all duration-300 hover:scale-105 cursor-pointer uppercase"
+              className="flex-1 bg-kraft-light text-foreground font-bold text-lg md:text-xl px-4 md:px-8 py-3 md:py-4 rounded-2xl shadow-lg hover:bg-kraft transform transition-all duration-300 hover:scale-105 cursor-pointer uppercase"
             >
               ← Atrás
             </button>
@@ -131,7 +131,7 @@ export default function CategoryVoting({
           <button
             onClick={handleNext}
             disabled={!selectedCandidate}
-            className="flex-1 bg-teal text-white font-bold text-xl px-8 py-4 rounded-2xl shadow-lg hover:bg-teal-light disabled:bg-gray-300 disabled:cursor-not-allowed transform transition-all duration-300 hover:scale-105 uppercase tracking-wide cursor-pointer"
+            className="flex-1 bg-teal text-white font-bold text-lg md:text-xl px-4 md:px-8 py-3 md:py-4 rounded-2xl shadow-lg hover:bg-teal-light disabled:bg-gray-300 disabled:cursor-not-allowed transform transition-all duration-300 hover:scale-105 uppercase tracking-wide cursor-pointer"
           >
             {isLastCategory ? 'Finalizar' : 'Siguiente →'}
           </button>

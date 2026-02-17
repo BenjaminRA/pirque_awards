@@ -4,7 +4,7 @@ type WelcomeScreenProps = {
 
 export default function WelcomeScreen({ onStart }: WelcomeScreenProps) {
   return (
-    <div className="flex min-h-screen items-center justify-center p-8">
+    <div className="flex min-h-screen items-center justify-center p-4 md:p-8">
       <div className="text-center max-w-2xl">
         <h1
           className="font-[var(--font-bebas-neue)] text-8xl md:text-[10rem] font-black text-foreground mb-4 tracking-wider uppercase"
@@ -34,7 +34,7 @@ export default function WelcomeScreen({ onStart }: WelcomeScreenProps) {
         </div>
         <button
           onClick={onStart}
-          className="bg-purple text-white font-bold text-2xl md:text-3xl px-16 py-6 rounded-2xl shadow-2xl hover:bg-purple-light hover:scale-105 transform transition-all duration-300 uppercase tracking-wide cursor-pointer"
+          className="bg-purple text-white font-bold text-xl md:text-3xl px-10 md:px-16 py-5 md:py-6 rounded-2xl shadow-2xl hover:bg-purple-light hover:scale-105 transform transition-all duration-300 uppercase tracking-wide cursor-pointer"
         >
           Empezar Votación
         </button>

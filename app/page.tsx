@@ -70,23 +70,9 @@ export default function Home() {
 
   const submitVotes = async () => {
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/votes`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            data: {
-              voterId,
-              votes,
-            },
-          }),
-        },
-      );
+      const response = await API.submitVote(voterId!, votes);
 
-      if (response.ok) {
+      if (response?.status === 200) {
         setStep('thanks');
       }
     } catch (error) {

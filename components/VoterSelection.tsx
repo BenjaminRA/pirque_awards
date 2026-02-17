@@ -41,21 +41,21 @@ export default function VoterSelection({
   };
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center p-8">
+    <div className="relative flex min-h-screen items-center justify-center p-4 md:p-8 pb-16">
       <button
         onClick={onBack}
-        className="absolute bottom-6 left-6 text-foreground/60 hover:text-foreground font-medium text-lg transition-colors cursor-pointer"
+        className="absolute bottom-4 left-4 md:bottom-6 md:left-6 text-foreground/60 hover:text-foreground font-medium text-base md:text-lg transition-colors cursor-pointer"
       >
         ← Volver
       </button>
-      <div className="bg-white/95 rounded-3xl shadow-2xl p-12 max-w-2xl w-full border-2 border-kraft-dark/20">
+      <div className="bg-white/95 rounded-3xl shadow-2xl p-6 md:p-12 max-w-2xl w-full border-2 border-kraft-dark/20">
         <h2
-          className="text-4xl md:text-5xl font-bold text-purple mb-8 text-center"
+          className="text-3xl md:text-5xl font-bold text-purple mb-6 md:mb-8 text-center"
           style={{ fontFamily: 'var(--font-bebas-neue)' }}
         >
           ¿Quién eres?
         </h2>
-        <p className="text-xl text-foreground/70 mb-8 text-center">
+        <p className="text-lg md:text-xl text-foreground/70 mb-6 md:mb-8 text-center">
           Selecciona tu nombre para comenzar a votar
         </p>
 
@@ -69,7 +69,7 @@ export default function VoterSelection({
         <button
           onClick={handleContinue}
           disabled={!selectedVoter}
-          className="w-full mt-8 bg-teal text-white font-bold text-2xl px-12 py-5 rounded-2xl shadow-lg hover:bg-teal-light disabled:bg-gray-300 disabled:cursor-not-allowed transform transition-all duration-300 hover:scale-105 uppercase tracking-wide cursor-pointer"
+          className="w-full mt-6 md:mt-8 bg-teal text-white font-bold text-xl md:text-2xl px-8 md:px-12 py-4 md:py-5 rounded-2xl shadow-lg hover:bg-teal-light disabled:bg-gray-300 disabled:cursor-not-allowed transform transition-all duration-300 hover:scale-105 uppercase tracking-wide cursor-pointer"
         >
           Continuar
         </button>

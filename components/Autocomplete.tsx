@@ -46,7 +46,16 @@ export default function Autocomplete({
   const filteredOptions = useMemo(
     () =>
       options.filter((option) =>
-        option.name.toLowerCase().includes(inputValue.toLowerCase()),
+        option.name
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .includes(
+            inputValue
+              .toLowerCase()
+              .normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, ''),
+          ),
       ),
     [options, inputValue],
   );
