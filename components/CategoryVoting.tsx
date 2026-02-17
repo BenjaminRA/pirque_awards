@@ -75,7 +75,7 @@ export default function CategoryVoting({
       >
         ← Volver
       </button>
-      <div className="bg-white/95 rounded-3xl shadow-2xl p-5 md:p-12 max-w-3xl w-full border-2 border-kraft-dark/20">
+      <div className="bg-white/95 rounded-3xl shadow-2xl p-5 md:p-12 max-w-3xl w-full border-2 border-kraft-dark/20 mb-12">
         <div className="mb-6">
           <p className="text-purple font-semibold text-lg">
             Pregunta {currentIndex + 1} de {totalCategories}
