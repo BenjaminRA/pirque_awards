@@ -112,6 +112,16 @@ export default function Home() {
           onBack={() => setStep('welcome')}
         />
       )}
+      {step === 'voting' && categories.length === 0 && (
+        <div className="flex min-h-screen items-center justify-center">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-12 h-12 border-4 border-purple/30 border-t-purple rounded-full animate-spin" />
+            <p className="text-lg text-foreground/70 font-medium">
+              Cargando categorías...
+            </p>
+          </div>
+        </div>
+      )}
       {step === 'voting' && categories.length > 0 && (
         <CategoryVoting
           category={categories[currentCategoryIndex]}
