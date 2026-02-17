@@ -4,7 +4,8 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: '*',
+        protocol: 'https',
+        hostname: 'wedding-backend.songbooksofpraise.com',
       },
     ],
   },
