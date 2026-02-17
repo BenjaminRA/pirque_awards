@@ -20,14 +20,18 @@ export default function VoterSelection({
 }: VoterSelectionProps) {
   const [voters, setVoters] = useState<Voter[]>([]);
   const [selectedVoter, setSelectedVoter] = useState<number | null>(null);
+  const [votersLoading, setVotersLoading] = useState(true);
 
   useEffect(() => {
     const fetchVoters = async () => {
+      setVotersLoading(true);
       try {
         const data = await API.fetchVoters();
         setVoters(data);
       } catch (error) {
         console.error('Error fetching voters:', error);
+      } finally {
+        setVotersLoading(false);
       }
     };
 
@@ -64,6 +68,7 @@ export default function VoterSelection({
           value={selectedVoter}
           onChange={setSelectedVoter}
           placeholder="Busca tu nombre..."
+          loading={votersLoading}
         />
 
         <button

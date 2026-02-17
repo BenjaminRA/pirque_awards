@@ -12,6 +12,7 @@ type AutocompleteProps = {
   value: number | null;
   onChange: (id: number) => void;
   placeholder?: string;
+  loading?: boolean;
 };
 
 export default function Autocomplete({
@@ -19,6 +20,7 @@ export default function Autocomplete({
   value,
   onChange,
   placeholder,
+  loading = false,
 }: AutocompleteProps) {
   const [inputValue, setInputValue] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -162,7 +164,8 @@ export default function Autocomplete({
         onKeyDown={handleKeyDown}
         onFocus={() => setIsOpen(true)}
         placeholder={placeholder}
-        className="w-full px-6 py-4 text-xl border-3 border-kraft-dark/40 rounded-2xl focus:outline-none focus:border-purple transition-colors bg-white"
+        disabled={loading}
+        className="w-full px-6 py-4 text-xl border-3 border-kraft-dark/40 rounded-2xl focus:outline-none focus:border-purple transition-colors bg-white disabled:bg-gray-100 disabled:cursor-not-allowed"
         role="combobox"
         aria-controls="autocomplete-listbox"
         aria-expanded={isOpen}
@@ -174,7 +177,13 @@ export default function Autocomplete({
         }
       />
 
-      {isOpen && filteredOptions.length > 0 && (
+      {loading && (
+        <div className="absolute right-4 top-1/2 -translate-y-1/2">
+          <div className="w-6 h-6 border-3 border-purple/30 border-t-purple rounded-full animate-spin" />
+        </div>
+      )}
+
+      {isOpen && !loading && filteredOptions.length > 0 && (
         <ul
           ref={listRef}
           id="autocomplete-listbox"

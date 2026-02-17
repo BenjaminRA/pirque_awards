@@ -39,15 +39,25 @@ export default function CategoryVoting({
   onReset,
 }: CategoryVotingProps) {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
+  const [imageLoading, setImageLoading] = useState(true);
+  const [candidatesLoading, setCandidatesLoading] = useState(true);
   const selectedCandidate = currentVote || null;
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setImageLoading(true);
+  }, [category.image]);
+
+  useEffect(() => {
     const fetchCandidates = async () => {
+      setCandidatesLoading(true);
       try {
         const data = await API.fetchCandidates(category.candidateType);
         setCandidates(data);
       } catch (error) {
         console.error('Error fetching candidates:', error);
+      } finally {
+        setCandidatesLoading(false);
       }
     };
 
@@ -93,12 +103,17 @@ export default function CategoryVoting({
         {category.image && (
           <div className="polaroid-card rounded-lg mb-6">
             <div className="relative w-full h-64 md:h-80 overflow-hidden rounded">
+              {imageLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-kraft-light/50 z-10">
+                  <div className="w-10 h-10 border-4 border-purple/30 border-t-purple rounded-full animate-spin" />
+                </div>
+              )}
               <Image
                 src={`${category.image}`}
-                // src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${category.image}`}
                 alt={category.title}
                 fill
-                className="object-cover"
+                className={`object-cover transition-opacity duration-300 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
+                onLoad={() => setImageLoading(false)}
               />
             </div>
           </div>
@@ -116,6 +131,7 @@ export default function CategoryVoting({
           value={selectedCandidate}
           onChange={handleCandidateChange}
           placeholder="Selecciona un candidato..."
+          loading={candidatesLoading}
         />
 
         <div className="flex gap-3 md:gap-4 mt-6 md:mt-8">
