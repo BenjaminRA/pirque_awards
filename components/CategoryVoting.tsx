@@ -41,6 +41,7 @@ export default function CategoryVoting({
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [imageLoading, setImageLoading] = useState(true);
   const [candidatesLoading, setCandidatesLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
   const selectedCandidate = currentVote || null;
 
   useEffect(() => {
@@ -67,6 +68,9 @@ export default function CategoryVoting({
   const handleNext = () => {
     if (selectedCandidate) {
       onVote(category.id, selectedCandidate);
+      if (isLastCategory) {
+        setSubmitting(true);
+      }
       onNext();
     }
   };
@@ -146,10 +150,21 @@ export default function CategoryVoting({
 
           <button
             onClick={handleNext}
-            disabled={!selectedCandidate}
+            disabled={!selectedCandidate || submitting}
             className="flex-1 bg-teal text-white font-bold text-lg md:text-xl px-4 md:px-8 py-3 md:py-4 rounded-2xl shadow-lg hover:bg-teal-light disabled:bg-gray-300 disabled:cursor-not-allowed transform transition-all duration-300 hover:scale-105 uppercase tracking-wide cursor-pointer"
           >
-            {isLastCategory ? 'Finalizar' : 'Siguiente →'}
+            {isLastCategory ? (
+              submitting ? (
+                <span className="flex items-center justify-center gap-3">
+                  <span className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin" />
+                  Enviando...
+                </span>
+              ) : (
+                'Finalizar'
+              )
+            ) : (
+              'Siguiente →'
+            )}
           </button>
         </div>
       </div>

@@ -20,7 +20,9 @@ export enum CandidateType {
 class API {
   static fetchCategories = async () => {
     try {
-      const response = await api.get('/categorias?populate=*');
+      const response = await api.get(
+        '/categorias?populate=*&sort=createdAt:ASC',
+      );
       return (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         response.data.data.map((item: any) => ({
