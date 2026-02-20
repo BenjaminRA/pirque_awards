@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 
 type Option = {
   id: number;
@@ -25,7 +25,9 @@ export default function Autocomplete({
   const [inputValue, setInputValue] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const [dropdownMaxHeight, setDropdownMaxHeight] = useState(320);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
 
   const selectedOption = useMemo(
@@ -75,6 +77,35 @@ export default function Autocomplete({
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  const recalcDropdownHeight = useCallback(() => {
+    if (!inputRef.current) return;
+    const rect = inputRef.current.getBoundingClientRect();
+    const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+    const spaceBelow = viewportHeight - rect.bottom - 16;
+    setDropdownMaxHeight(Math.max(120, spaceBelow));
+  }, []);
+
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!vv) return;
+
+    const handleResize = () => {
+      recalcDropdownHeight();
+      // Keep input visible when keyboard appears
+      if (isOpen && inputRef.current) {
+        setTimeout(() => {
+          inputRef.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+          });
+        }, 100);
+      }
+    };
+
+    vv.addEventListener('resize', handleResize);
+    return () => vv.removeEventListener('resize', handleResize);
+  }, [isOpen, recalcDropdownHeight]);
 
   useEffect(() => {
     if (highlightedIndex >= 0 && listRef.current) {
@@ -158,11 +189,21 @@ export default function Autocomplete({
       className="relative"
     >
       <input
+        ref={inputRef}
         type="text"
         value={displayValue}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
-        onFocus={() => setIsOpen(true)}
+        onFocus={() => {
+          setIsOpen(true);
+          recalcDropdownHeight();
+          setTimeout(() => {
+            inputRef.current?.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start',
+            });
+          }, 300);
+        }}
         placeholder={placeholder}
         disabled={loading}
         className="w-full px-6 py-4 text-xl border-3 border-kraft-dark/40 rounded-2xl focus:outline-none focus:border-purple transition-colors bg-white disabled:bg-gray-100 disabled:cursor-not-allowed"
@@ -188,7 +229,8 @@ export default function Autocomplete({
           ref={listRef}
           id="autocomplete-listbox"
           role="listbox"
-          className="absolute z-10 w-full mt-2 bg-white border-3 border-kraft-dark/40 rounded-2xl shadow-xl max-h-80 overflow-y-auto"
+          className="absolute z-10 w-full mt-2 bg-white border-3 border-kraft-dark/40 rounded-2xl shadow-xl overflow-y-auto"
+          style={{ maxHeight: `${dropdownMaxHeight}px` }}
         >
           {filteredOptions.map((option, index) => (
             <li
