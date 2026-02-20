@@ -81,9 +81,20 @@ export default function Autocomplete({
   const recalcDropdownHeight = useCallback(() => {
     if (!inputRef.current) return;
     const rect = inputRef.current.getBoundingClientRect();
-    const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
-    const spaceBelow = viewportHeight - rect.bottom - 16;
-    setDropdownMaxHeight(Math.max(240, spaceBelow));
+    const vv = window.visualViewport;
+
+    if (vv && vv.height < window.innerHeight * 0.75) {
+      // Keyboard is open — input will be scrolled to the top of the
+      // visual viewport, so available space is the viewport minus the
+      // input's own height, regardless of current scroll position.
+      const spaceBelow = vv.height - rect.height - 32;
+      setDropdownMaxHeight(Math.max(120, spaceBelow));
+    } else {
+      // No keyboard — use actual position
+      const viewportHeight = window.innerHeight;
+      const spaceBelow = viewportHeight - rect.bottom - 16;
+      setDropdownMaxHeight(Math.max(120, spaceBelow));
+    }
   }, []);
 
   useEffect(() => {
