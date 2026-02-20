@@ -83,7 +83,7 @@ export default function Autocomplete({
     const rect = inputRef.current.getBoundingClientRect();
     const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
     const spaceBelow = viewportHeight - rect.bottom - 16;
-    setDropdownMaxHeight(Math.max(120, spaceBelow));
+    setDropdownMaxHeight(Math.max(240, spaceBelow));
   }, []);
 
   useEffect(() => {
