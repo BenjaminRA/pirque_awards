@@ -67,10 +67,14 @@ class API {
       const response = await api.get(url);
       return (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        response.data.data.map((item: any) => ({
-          id: item.id,
-          name: item.nombre,
-        })) || []
+        response.data.data.map((item: any) => {
+          console.log('Candidate item:', item);
+
+          return {
+            id: item.id,
+            name: item.nombre,
+          };
+        }) || []
       );
     } catch (error) {
       console.error('Error fetching candidates:', error);
@@ -79,12 +83,12 @@ class API {
   };
 
   static submitVote = async (
-    voterId: number,
-    votes: { categoryId: number; candidateId: number }[],
+    voterName: string,
+    votes: { categoryTitle: string; candidateName: string }[],
   ) => {
     try {
       const response = await api.post('/voto/submit-voto', {
-        voterId,
+        voterName,
         votes,
       });
 

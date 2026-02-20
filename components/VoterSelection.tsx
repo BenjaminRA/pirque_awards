@@ -10,7 +10,7 @@ type Voter = {
 };
 
 type VoterSelectionProps = {
-  onVoterSelected: (id: number) => void;
+  onVoterSelected: (id: number, name: string) => void;
   onBack: () => void;
 };
 
@@ -40,7 +40,8 @@ export default function VoterSelection({
 
   const handleContinue = () => {
     if (selectedVoter) {
-      onVoterSelected(selectedVoter);
+      const voterName = voters.find((v) => v.id === selectedVoter)?.name || '';
+      onVoterSelected(selectedVoter, voterName);
     }
   };
 

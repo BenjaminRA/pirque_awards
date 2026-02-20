@@ -17,9 +17,11 @@ export type Voter = {
 export type Vote = {
   categoryId: number;
   candidateId: number;
+  categoryTitle: string;
+  candidateName: string;
 };
 
 export type VoteSubmission = {
   voterId: number;
-  votes: Vote[];
+  votes: { categoryTitle: string; candidateName: string }[];
 };

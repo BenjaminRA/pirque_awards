@@ -22,6 +22,8 @@ export type Candidate = {
 export type Vote = {
   categoryId: number;
   candidateId: number;
+  categoryTitle: string;
+  candidateName: string;
 };
 
 export default function Home() {
@@ -29,6 +31,7 @@ export default function Home() {
     'welcome',
   );
   const [voterId, setVoterId] = useState<number | null>(null);
+  const [voterName, setVoterName] = useState<string>('');
   const [categories, setCategories] = useState<Category[]>([]);
   const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
   const [votes, setVotes] = useState<Vote[]>([]);
@@ -37,20 +40,34 @@ export default function Home() {
     setStep('voter');
   };
 
-  const handleVoterSelected = (id: number) => {
+  const handleVoterSelected = (id: number, name: string) => {
     setVoterId(id);
+    setVoterName(name);
     setStep('voting');
   };
 
-  const handleVote = (categoryId: number, candidateId: number) => {
+  const handleVote = (
+    categoryId: number,
+    candidateId: number,
+    categoryTitle: string,
+    candidateName: string,
+  ) => {
     setVotes((prev) => {
       const existing = prev.findIndex((v) => v.categoryId === categoryId);
       if (existing >= 0) {
         const updated = [...prev];
-        updated[existing] = { categoryId, candidateId };
+        updated[existing] = {
+          categoryId,
+          candidateId,
+          categoryTitle,
+          candidateName,
+        };
         return updated;
       }
-      return [...prev, { categoryId, candidateId }];
+      return [
+        ...prev,
+        { categoryId, candidateId, categoryTitle, candidateName },
+      ];
     });
   };
 
@@ -70,7 +87,11 @@ export default function Home() {
 
   const submitVotes = async () => {
     try {
-      const response = await API.submitVote(voterId!, votes);
+      const payload = votes.map((v) => ({
+        categoryTitle: v.categoryTitle,
+        candidateName: v.candidateName,
+      }));
+      const response = await API.submitVote(voterName, payload);
 
       if (response?.status === 200) {
         setStep('thanks');
@@ -84,6 +105,7 @@ export default function Home() {
   const handleReset = () => {
     setStep('welcome');
     setVoterId(null);
+    setVoterName('');
     setCurrentCategoryIndex(0);
     setVotes([]);
   };

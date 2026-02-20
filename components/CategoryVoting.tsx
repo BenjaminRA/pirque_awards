@@ -22,7 +22,12 @@ type CategoryVotingProps = {
   currentIndex: number;
   totalCategories: number;
   currentVote?: number;
-  onVote: (categoryId: number, candidateId: number) => void;
+  onVote: (
+    categoryId: number,
+    candidateId: number,
+    categoryTitle: string,
+    candidateName: string,
+  ) => void;
   onNext: () => void;
   onPrevious: () => void;
   onReset: () => void;
@@ -67,7 +72,9 @@ export default function CategoryVoting({
 
   const handleNext = () => {
     if (selectedCandidate) {
-      onVote(category.id, selectedCandidate);
+      const candidateName =
+        candidates.find((c) => c.id === selectedCandidate)?.name || '';
+      onVote(category.id, selectedCandidate, category.title, candidateName);
       if (isLastCategory) {
         setSubmitting(true);
       }
@@ -76,7 +83,8 @@ export default function CategoryVoting({
   };
 
   const handleCandidateChange = (id: number) => {
-    onVote(category.id, id);
+    const candidateName = candidates.find((c) => c.id === id)?.name || '';
+    onVote(category.id, id, category.title, candidateName);
   };
 
   const isLastCategory = currentIndex === totalCategories - 1;
